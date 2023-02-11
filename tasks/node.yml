@@ -1,0 +1,19 @@
+- name: Node Tasks
+  become: "{{ should_be_root }}"
+  block:
+    - name: Install asdf
+      ansible.builtin.git:
+        repo: https://github.com/asdf-vm/asdf.git
+        dest: ~/.asdf
+        version: e906a91bbda47f47d09cb0af4f441337a529e93c
+      tags:
+        - node
+    - name: Replace zsh plugins entry
+      ansible.builtin.lineinfile:
+        path: /Users/{{ lookup('env', 'USER') }}/.zshrc
+        regexp: "plugins=.*"
+        line: plugins=(git zsh-autosuggestions asdf)
+        owner: "{{ lookup('env', 'USER') }}"
+        mode: "0755"
+      tags:
+        - node

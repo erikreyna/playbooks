@@ -1,0 +1,31 @@
+- name: Fonts Tasks
+  become: "{{ should_be_root }}"
+  block:
+    - name: Create a font download if it does not exist
+      ansible.builtin.file:
+        path: $HOME/temp-downloads/FIRA_CODE
+        state: directory
+        mode: "0755"
+      tags:
+        - fonts
+    - name: Download Fira Code Font
+      ansible.builtin.get_url:
+        url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/FiraCode.zip
+        dest: $HOME/temp-downloads/
+        mode: "0755"
+        force: true
+      tags:
+        - fonts
+    - name: Uncompress Fira Code zip
+      ansible.builtin.unarchive:
+        src: $HOME/temp-downloads/FiraCode.zip
+        dest: $HOME/temp-downloads/FIRA_CODE/
+      changed_when: false
+      tags:
+        - fonts
+    - name: Copy fonts to OSX /Library/Fonts/ directory
+      ansible.builtin.copy:
+        src: $HOME/temp-downloads/FIRA_CODE/*.ttf
+        dest: /Library/Fonts/
+        mode: "0755"
+        force: true

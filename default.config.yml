@@ -1,0 +1,59 @@
+# configures the dock via dockutil. (boolean)
+configure_dock: true
+
+# configures osx scripts. (boolean)
+configure_osx: true
+
+# https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/dock/README.md
+dockitems_remove:
+  - Launchpad
+  - TV
+  - Podcasts
+  - "App Store"
+
+dockutil_install: true
+
+# https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/homebrew/README.md
+homebrew_cask_appdir: /Applications
+
+homebrew_cask_apps:
+  - docker
+  - firefox
+  - google-chrome
+  - gas-mask
+  - keybase
+  - slack
+  - visual-studio-code
+
+homebrew_installed_packages:
+  - awscli
+  - git
+  - gh
+  - jq
+  - openssl
+  - starship
+  - stow
+  - wget
+
+homebrew_taps:
+  - homebrew/bundle
+  - homebrew/cask
+  - homebrew/core
+  - homebrew/services
+
+# https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/mas/README.md
+mas_installed_app_ids:
+  - test
+
+mas_uninstalled_apps:
+  - { id: 408981434, name: "iMovie" }
+  - { id: 409183694, name: "Keynote" }
+  - { id: 409201541, name: "Pages" }
+  - { id: 409203825, name: "Numbers" }
+  - { id: 682658836, name: "GarageBand" }
+
+# OSX Script
+osx_script: "~/.osx --no-restart"
+
+# handy workaround for managing permissions for brew
+should_be_root: "{{ true if ansible_pkg_mgr != 'brew' else false }}"
