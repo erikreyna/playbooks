@@ -1,21 +1,267 @@
-- name: Osx Tasks
-  become: "{{ should_be_root }}"
+- name: Mac OS Preferences
   block:
-    - name: Copy .osx dotfile from template
-      ansible.builtin.command: cp templates/.osx $HOME/.osx
-      changed_when: false
-      tags:
-        - osx
-    # TODO: Use sudo once .osx can be run via root with no user interaction.
-    - name: Run .osx dotfiles.
-      ansible.builtin.command: "{{ osx_script }}"
-      changed_when: false
-      tags:
-        - osx
-    - name: Cleanup
-      ansible.builtin.file:
-        state: absent
-        path: $HOME/.osx
-      changed_when: false
-      tags:
-        - osx
+    - name: Set save to disk (not to iCloud) by default
+      community.general.osx_defaults:
+        key: NSDocumentSaveNewDocumentsToCloud
+        type: bool
+        value: false
+        state: present
+    - name: Automatically quit printer app once the print jobs complete
+      community.general.osx_defaults:
+        domain: com.apple.print.PrintingPrefs
+        key: "Quit When Finished"
+        type: bool
+        value: true
+        state: present
+    - name: Haptic feedback (light clicking)
+      community.general.osx_defaults:
+        domain: com.apple.AppleMultitouchTrackpad
+        key: FirstClickThreshold
+        type: integer
+        value: 0
+        state: present
+    - name: Haptic feedback (light clicking)
+      community.general.osx_defaults:
+        domain: com.apple.AppleMultitouchTrackpad
+        key: SecondClickThreshold
+        type: integer
+        value: 0
+        state: present
+    - name: Haptic feedback (silent clicking)
+      community.general.osx_defaults:
+        domain: com.apple.AppleMultitouchTrackpad
+        key: ActuationStrength
+        type: integer
+        value: 0
+        state: present
+    - name: Disable press-and-hold for keys in favor of key repeat
+      community.general.osx_defaults:
+        key: ApplePressAndHoldEnabled
+        type: bool
+        value: false
+        state: present
+    - name: Make keyboard repeat happen more quickly.
+      community.general.osx_defaults:
+        key: InitialKeyRepeat
+        type: integer
+        value: 20
+        state: present
+    - name: Set a blazingly fast keyboard repeat rate.
+      community.general.osx_defaults:
+        key: KeyRepeat
+        type: integer
+        value: 1
+        state: present
+    - name: Save screenshots to Downloads folder.
+      community.general.osx_defaults:
+        domain: com.apple.screencapture
+        key: location
+        type: string
+        value: "${HOME}/Downloads"
+        state: present
+    - name: "Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)"
+      community.general.osx_defaults:
+        domain: com.apple.screencapture
+        key: type
+        type: string
+        value: "png"
+        state: present
+    - name: Disable shadow in screenshots
+      community.general.osx_defaults:
+        domain: com.apple.screencapture
+        key: disable-shadow
+        type: bool
+        value: true
+        state: present
+    - name: Show icons for external hard drives
+      community.general.osx_defaults:
+        domain: com.apple.finder
+        key: ShowExternalHardDrivesOnDesktop
+        type: bool
+        value: true
+        state: present
+    - name: Show icons for hard drives
+      community.general.osx_defaults:
+        domain: com.apple.finder
+        key: ShowHardDrivesOnDesktop
+        type: bool
+        value: true
+        state: present
+    - name: Show icons for mounted servers
+      community.general.osx_defaults:
+        domain: com.apple.finder
+        key: ShowMountedServersOnDesktop
+        type: bool
+        value: true
+        state: present
+    - name: Show icons for removable media
+      community.general.osx_defaults:
+        domain: com.apple.finder
+        key: ShowRemovableMediaOnDesktop
+        type: bool
+        value: true
+        state: present
+    - name: show status bar
+      community.general.osx_defaults:
+        domain: com.apple.finder
+        key: ShowStatusBar
+        type: bool
+        value: true
+        state: present
+    - name: Allow text selection in quick look
+      community.general.osx_defaults:
+        domain: com.apple.finder
+        key: QLEnableTextSelection
+        type: bool
+        value: true
+        state: present
+    - name: Disable the warning when changing a file extension
+      community.general.osx_defaults:
+        domain: com.apple.finder
+        key: FXEnableExtensionChangeWarning
+        type: bool
+        value: false
+        state: present
+    - name: Use column view in all Finder windows by default
+      community.general.osx_defaults:
+        domain: com.apple.finder
+        key: FXPreferredViewStyle
+        type: string
+        value: "clmv"
+        state: present
+    - name: Show all filename extensions
+      community.general.osx_defaults:
+        key: AppleShowAllExtensions
+        type: bool
+        value: true
+        state: present
+    - name: Enable spring loading for directories
+      community.general.osx_defaults:
+        key: com.apple.springing.enabled
+        type: bool
+        value: true
+        state: present
+    - name: Remove the spring loading delay for directories
+      community.general.osx_defaults:
+        key: com.apple.springing.delay
+        type: float
+        value: 0.1
+        state: present
+    - name: Avoid creating .DS_Store files on network volumes
+      community.general.osx_defaults:
+        domain: com.apple.desktopservices
+        key: DSDontWriteNetworkStores
+        type: bool
+        value: true
+        state: present
+    - name: Set the icon size of Dock items
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: tilesize
+        type: integer
+        value: 20
+        state: present
+    - name: Speed up Mission Control animationsSet the icon size of Dock items
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: expose-animation-duration
+        type: float
+        value: 0.5
+        state: present
+    - name: Make Dock icons of hidden applications translucent
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: showhidden
+        type: bool
+        value: true
+        state: present
+    - name: Unset hot corners (Bottom right)
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: wvous-br-corner
+        type: integer
+        value: 0
+        state: present
+    - name: Unset hot corners (Bottom right)
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: wvous-br-modifier
+        type: integer
+        value: 0
+        state: present
+    - name: Unset hot corners (Top right)
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: wvous-tr-corner
+        type: integer
+        value: 0
+        state: present
+    - name: Unset hot corners (Top right)
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: wvous-tr-modifier
+        type: integer
+        value: 0
+        state: present
+    - name: Unset hot corners (Bottom left)
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: wvous-bl-corner
+        type: integer
+        value: 0
+        state: present
+    - name: Unset hot corners (Bottom left)
+      community.general.osx_defaults:
+        domain: com.apple.dock
+        key: wvous-bl-modifier
+        type: integer
+        value: 0
+        state: present
+    - name: Enable the Develop menu in Safari
+      community.general.osx_defaults:
+        domain: com.apple.Safari
+        key: IncludeDevelopMenu
+        type: bool
+        value: true
+        state: present
+    - name: Enable the Web Inspector in Safari
+      community.general.osx_defaults:
+        domain: com.apple.Safari
+        key: WebKitDeveloperExtrasEnabledPreferenceKey
+        type: bool
+        value: true
+        state: present
+    - name: Enable the WebKit2 Developer Extras in Safari
+      community.general.osx_defaults:
+        domain: com.apple.Safari
+        key: com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled
+        type: bool
+        value: true
+        state: present
+    - name: Add a context menu item for showing the Web Inspector in web views
+      community.general.osx_defaults:
+        key: WebKitDeveloperExtras
+        type: bool
+        value: true
+        state: present
+    - name: Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
+      community.general.osx_defaults:
+        domain: com.apple.mail
+        key: AddressesIncludeNameOnPasteboard
+        type: bool
+        value: false
+        state: present
+    - name: Show the main window when launching Activity Monitor
+      community.general.osx_defaults:
+        domain: com.apple.ActivityMonitor
+        key: OpenMainWindow
+        type: bool
+        value: true
+        state: present
+    - name: Show all processes in Activity Monitor
+      community.general.osx_defaults:
+        domain: com.apple.ActivityMonitor
+        key: ShowCategory
+        type: integer
+        value: 0
+        state: present

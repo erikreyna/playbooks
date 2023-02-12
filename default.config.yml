@@ -1,59 +1,106 @@
 # configures the dock via dockutil. (boolean)
 configure_dock: true
 
-# configures osx scripts. (boolean)
-configure_osx: true
-
 # https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/dock/README.md
 dockitems_remove:
-  - Launchpad
-  - TV
-  - Podcasts
   - "App Store"
+  - Freeform
+  - Launchpad
+  - "Microsoft Excel"
+  - "Microsoft Outlook"
+  - "Microsoft PowerPoint"
+  - "Microsoft Word"
+  - Podcasts
+  - Reminders
+  - "Self Service"
+  - TV
 
 dockutil_install: true
 
-# https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/homebrew/README.md
+# fill out with your apple id email
+mas_signin_dialog: yes
+mas_email: ""
+
+# https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/mas/README.md
+mas_installed_apps:
+  - { id: 904280696, name: "Things (3.17.2)" }
+  - { id: 497799835, name: "Xcode (14.2)" }
+
+# can't use this sadly since there is a bug with the mas-cli
+# https://github.com/mas-cli/mas/issues/216
+# mas_uninstalled_apps:
+#   - { id: 408981434, name: "iMovie" }
+#   - { id: 409183694, name: "Keynote" }
+#   - { id: 409201541, name: "Pages" }
+#   - { id: 409203825, name: "Numbers" }
+#   - { id: 682658836, name: "GarageBand" }
+
+mas_uninstalled_apps: []
+
+mas_upgrade_all_apps: true
+
+# handy workaround for managing permissions for brew
+should_be_root: "{{ true if ansible_pkg_mgr != 'brew' else false }}"
+
+homebrew_upgrade_all_packages: true
+
 homebrew_cask_appdir: /Applications
 
+homebrew_installed_packages:
+  - awscli
+  - cantino/mcfly/mcfly
+  - git
+  - gh
+  - jq
+  - mas
+  - openssl
+  - python
+  - pipx
+  - starship
+  - wget
+
+homebrew_taps:
+  - homebrew/bundle
+  - homebrew/cask
+  - homebrew/cask-fonts
+  - homebrew/core
+  - homebrew/services
+  - cantino/mcfly
+
 homebrew_cask_apps:
+  - alacritty
+  - alfred
   - docker
+  - font-fira-code
   - firefox
   - google-chrome
   - gas-mask
   - keybase
   - slack
   - visual-studio-code
+  - 1password
 
-homebrew_installed_packages:
-  - awscli
+# Rust
+rust_version: 1.31.0
+rust_update: true
+build_rust_from_source: false
+rust_install_clean: true
+
+# Cargo
+cargo_items:
+  - name: ripgrep
+    binary: rg
+
+# Rust Shell Configuration
+shell_profiles:
+  - .zshrc
+
+# Oh My ZSH
+oh_my_zsh_plugins:
+  - asdf
   - git
-  - gh
-  - jq
-  - openssl
-  - starship
-  - stow
-  - wget
+  - zsh-autosuggestions
 
-homebrew_taps:
-  - homebrew/bundle
-  - homebrew/cask
-  - homebrew/core
-  - homebrew/services
-
-# https://github.com/geerlingguy/ansible-collection-mac/blob/master/roles/mas/README.md
-mas_installed_app_ids:
-  - test
-
-mas_uninstalled_apps:
-  - { id: 408981434, name: "iMovie" }
-  - { id: 409183694, name: "Keynote" }
-  - { id: 409201541, name: "Pages" }
-  - { id: 409203825, name: "Numbers" }
-  - { id: 682658836, name: "GarageBand" }
-
-# OSX Script
-osx_script: "~/.osx --no-restart"
-
-# handy workaround for managing permissions for brew
-should_be_root: "{{ true if ansible_pkg_mgr != 'brew' else false }}"
+oh_my_zsh_install: yes
+oh_my_zsh_update_mode: auto
+oh_my_zsh_update_frequency: 13

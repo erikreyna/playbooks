@@ -1,62 +1,56 @@
+---
 - name: Set up new machine
-  connection: local
   hosts: localhost
   pre_tasks:
-    - name: If osx, install command line tooling
-      ansible.builtin.command: zsh ./bin/osx.zsh
-      changed_when: false
-      become_method: su
-      when: ansible_facts['os_family'] == "Darwin"
-      tags:
-        - osx
+    - name: Check if .asdf file exists
+      ansible.builtin.stat:
+        path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.asdf"
+      register: asdf_file
   tasks:
-    - name: Create temp dir for downloads
-      ansible.builtin.file:
-        path: $HOME/temp-downloads/
-        state: directory
-        mode: "0755"
     - name: Execute OSX settings update
       ansible.builtin.import_tasks: tasks/osx.yml
-    - name: Set up ohmyzsh
+      when: ansible_facts['os_family'] | lower == "darwin"
+      tags:
+        - osx
+    - name: Enhance ohmyzsh installation
       ansible.builtin.import_tasks: tasks/zsh.yml
-    - name: Install ASDF and node
-      ansible.builtin.import_tasks: tasks/node.yml
-    - name: Install Rust
-      ansible.builtin.import_tasks: tasks/rust.yml
-      # stow + dotfiles
-      # set up vscode settings
-      # yabai window manager
-      # check out alacritty and embed in vscode terminal
-      # https://github.com/alacritty/alacritty/blob/master/INSTALL.md#zsh
-
-      # explore git worktrees instead of normal git
-      # learn some core utils
-      # cat
-      # read
-      # grep / rg (rust version of grep)
-      # tr
-      # echo
-      # sed
-      # sort
-      # bc
-      # check out vimtutor
+      when: ansible_facts['os_family'] | lower == "darwin"
+      tags:
+        - zsh
   post_tasks:
-    - name: Remove temp downloads directory
-      ansible.builtin.file:
-        path: $HOME/temp-downloads/
-        state: absent
+    - name: Ensure path with pipx (🐍)
+      ansible.builtin.command: pipx ensurepath
+      when: ansible_facts['os_family'] | lower == "darwin"
+      tags:
+        - python
   roles:
     - role: elliotweiser.osx-command-line-tools
+      when: ansible_facts['os_family'] | lower == "darwin"
+      tags:
+        - osx
     - role: geerlingguy.mac.homebrew
+      when: ansible_facts['os_family'] | lower == "darwin"
       tags:
-        - homebrew
+        - osx
     - role: geerlingguy.mac.mas
-      when: mas_installed_apps or mas_installed_app_ids
+      when: ansible_facts['os_family'] | lower == "darwin" and (mas_installed_apps or mas_installed_app_ids)
       tags:
-        - mas
+        - osx
     - role: geerlingguy.mac.dock
-      when: configure_dock
+      when: ansible_facts['os_family'] | lower == "darwin" and configure_dock
       tags:
-        - dock
+        - osx
+    - role: osx_provisioner.asdf
+      when: not asdf_file.stat.exists
+      asdf_plugins:
+        - name: "nodejs"
+          versions: ["18.9.0"]
+          global: "18.9.0"
+        - name: "python"
+          versions: ["3.9.1"]
+    - role: fubarhouse.rust
+    - role: gantsign.oh-my-zsh
+      users:
+        - username: "{{ lookup('ansible.builtin.env', 'USER') }}"
   vars_files:
     - default.config.yml

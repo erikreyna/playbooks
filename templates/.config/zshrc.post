@@ -1,0 +1,4 @@
+[ -f ~/.cargo/env ] && source $HOME/.cargo/env
+
+eval "$(starship init zsh)"
+eval "$(mcfly init zsh)"

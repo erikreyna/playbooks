@@ -1,6 +1,9 @@
 ---
+collections:
+  - name: community.general
+  - name: geerlingguy.mac
 roles:
   - name: elliotweiser.osx-command-line-tools
-
-collections:
-  - name: geerlingguy.mac
+  - name: fubarhouse.rust
+  - name: gantsign.oh-my-zsh
+  - name: osx_provisioner.asdf
