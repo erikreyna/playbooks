@@ -25,6 +25,7 @@ mas_email: ""
 mas_installed_apps:
   - { id: 904280696, name: "Things (3.17.2)" }
   - { id: 497799835, name: "Xcode (14.2)" }
+  - { id: 1569813296, name: "1Password for Safari  (2.7.0)" }
 
 # can't use this sadly since there is a bug with the mas-cli
 # https://github.com/mas-cli/mas/issues/216
