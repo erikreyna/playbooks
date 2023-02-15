@@ -71,7 +71,10 @@ homebrew_taps:
 homebrew_cask_apps:
   - alacritty
   - alfred
+  - caffeine
   - docker
+  # not really recommended to install fonts this way
+  # but far easier than handling custom copy paste jobs
   - font-fira-code
   - firefox
   - google-chrome

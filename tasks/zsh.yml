@@ -10,11 +10,11 @@
         path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.config/"
         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
         state: directory
-        mode: "0755"
+        mode: 0755
       when: config_dir.stat.isDir is defined and not config_dir.stat.isDir
     - name: Clone repo for zsh-suggestions
       ansible.builtin.git:
-        repo: 'https://github.com/zsh-users/zsh-autosuggestions'
+        repo: "https://github.com/zsh-users/zsh-autosuggestions"
         dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
         version: v0.7.0
     - name: Copy zsh files to ZSH_CUSTOM
@@ -22,7 +22,7 @@
         src: "{{ item }}"
         dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.oh-my-zsh/custom/"
         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
-        mode: "0755"
+        mode: 0755
         force: true
       with_fileglob: templates/.config/*
     - name: "Create a default ZSH configuration"
@@ -30,7 +30,7 @@
         src: templates/.zshrc
         dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.zshrc"
         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
-        mode: "0755"
+        mode: 0755
         force: true
     - name: Replace zsh plugins entry
       ansible.builtin.lineinfile:
@@ -38,12 +38,12 @@
         regexp: "plugins=.*"
         line: plugins=(git zsh-autosuggestions asdf)
         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
-        mode: "0755"
+        mode: 0755
     - name: Add Starship configuration to ~/.config
       ansible.builtin.template:
         src: templates/starship.toml
         dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.config/starship.toml"
         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
-        mode: "0755"
+        mode: 0755
         force: true
       when: config_dir.stat.exists

@@ -24,4 +24,4 @@ pip3 install --ignore-installed ansible
 ansible-galaxy install -r requirements.yml
 
 # execute our ansible playbook
-ansible-playbook -i "localhost," -c local local.yml
+ansible-playbook -i "localhost," -c local local.yml --verbose --ask-become-pass --ask-vault-pass

@@ -5,6 +5,7 @@ My personal Ansible playbooks for various things, primarily setting up new machi
 ## Pre Installation
 
 - Sign into your icloud account before running this.
+- Know that there are some tasks that are particular to my setup here at the moment, like the clokta steps, you might want to remove those from your local.yml list, especially since I have the `--ask-vault-pass` flag set in `/bin/machine-setup`
 - With managed machines, sometimes they come shipped with software, like Slack, Firefox / Chrome. You might want to delete those apps before running this script as it will fail. We want the scripts to handle all application installation.
 
 ## Installation
@@ -30,6 +31,10 @@ gh auth login
 ```
 
 You can also run the tasks as much as you want, no need to install pip and all those things, you can skip to `ansible-playbook -i "localhost," -c local local.yml`
+
+### Clokta
+
+Authenticating to AWS for the Post relies on [washingtonpost/clokta](https://github.com/washingtonpost/clokta). See instructions on how to set up your creds there.
 
 ## VSCode settings
 

@@ -1,0 +1,21 @@
+- name: Install Python packages
+  block:
+    - name: Pipx ensure path
+      ansible.builtin.command: pipx ensurepath
+    - name: Source .zshrc to ensure pipx if it installed
+      ansible.builtin.shell: "source {{ lookup('ansible.builtin.env', 'HOME') }}/.zshrc"
+    - name: Create .clokta dir
+      ansible.builtin.file:
+        path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.clokta/"
+        owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
+        state: directory
+        mode: 0755
+    - name: Copy clokta config to .clokta dir
+      ansible.builtin.copy:
+        src: templates/clokta-config.cfg
+        dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.clokta/clokta.cfg"
+        owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
+        mode: 0755
+        decrypt: yes
+    - name: Install Clokta globally
+      ansible.builtin.command: pipx install clokta

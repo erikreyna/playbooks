@@ -17,9 +17,8 @@
       when: ansible_facts['os_family'] | lower == "darwin"
       tags:
         - zsh
-  post_tasks:
-    - name: Ensure path with pipx (🐍)
-      ansible.builtin.command: pipx ensurepath
+    - name: Set up Python
+      ansible.builtin.import_tasks: tasks/python.yml
       when: ansible_facts['os_family'] | lower == "darwin"
       tags:
         - python
