@@ -48,6 +48,7 @@ homebrew_upgrade_all_packages: true
 homebrew_cask_appdir: /Applications
 
 homebrew_installed_packages:
+  - act
   - awscli
   - cantino/mcfly/mcfly
   - git
