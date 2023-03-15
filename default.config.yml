@@ -50,6 +50,7 @@ homebrew_cask_appdir: /Applications
 homebrew_installed_packages:
   - act
   - awscli
+  - awslogs
   - cantino/mcfly/mcfly
   - git
   - gh
