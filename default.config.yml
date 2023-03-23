@@ -52,6 +52,7 @@ homebrew_installed_packages:
   - awscli
   - awslogs
   - cantino/mcfly/mcfly
+  - cfn-lint
   - git
   - gh
   - jq
