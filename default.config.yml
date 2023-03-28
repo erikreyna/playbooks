@@ -51,8 +51,10 @@ homebrew_installed_packages:
   - act
   - awscli
   - awslogs
+  - bat
   - cantino/mcfly/mcfly
   - cfn-lint
+  - exa
   - git
   - gh
   - jq
@@ -62,6 +64,7 @@ homebrew_installed_packages:
   - pipx
   - starship
   - wget
+  - zsh-syntax-highlighting
 
 homebrew_taps:
   - homebrew/bundle
