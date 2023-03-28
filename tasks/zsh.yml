@@ -32,13 +32,6 @@
         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
         mode: 0755
         force: true
-    - name: Replace zsh plugins entry
-      ansible.builtin.lineinfile:
-        path: "{{ lookup('ansible.builtin.env', 'HOME') }}/.zshrc"
-        regexp: "plugins=.*"
-        line: plugins=(git zsh-autosuggestions asdf)
-        owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
-        mode: 0755
     - name: Add Starship configuration to ~/.config
       ansible.builtin.template:
         src: templates/starship.toml

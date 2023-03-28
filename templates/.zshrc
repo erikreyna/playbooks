@@ -4,7 +4,7 @@ zstyle ':omz:update' frequency 7
 
 # ohmyzsh setup
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting z)
+plugins=(asdf git z zsh-autosuggestions zsh-syntax-highlighting)
 DISABLE_UPDATE_PROMPT="true"
 ZSH_DISABLE_COMPFIX=true
 

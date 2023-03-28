@@ -154,13 +154,6 @@
         type: bool
         value: true
         state: present
-    - name: Set the icon size of Dock items
-      community.general.osx_defaults:
-        domain: com.apple.dock
-        key: tilesize
-        type: integer
-        value: 20
-        state: present
     - name: Speed up Mission Control animationsSet the icon size of Dock items
       community.general.osx_defaults:
         domain: com.apple.dock
