@@ -64,7 +64,6 @@ homebrew_installed_packages:
   - pipx
   - starship
   - wget
-  - zsh-syntax-highlighting
 
 homebrew_taps:
   - homebrew/bundle

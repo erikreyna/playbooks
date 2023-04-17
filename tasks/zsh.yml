@@ -17,6 +17,11 @@
         repo: "https://github.com/zsh-users/zsh-autosuggestions"
         dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
         version: v0.7.0
+    - name: Clone repo for zsh-syntax-highlighting
+      ansible.builtin.git:
+        repo: "https://github.com/zsh-users/zsh-syntax-highlighting"
+        dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        version: v0.7.1
     - name: Copy zsh files to ZSH_CUSTOM
       ansible.builtin.copy:
         src: "{{ item }}"
