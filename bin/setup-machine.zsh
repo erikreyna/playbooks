@@ -12,7 +12,7 @@ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 # M1 Macs need rosetta (sorry I am not adding support for non Ms)
 /usr/sbin/softwareupdate --install-rosetta
 
-export PATH="$HOME/Library/Python/3.13/bin:/opt/homebrew/bin:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:/opt/homebrew/bin:$PATH"
 
 # make sure we have pip
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
