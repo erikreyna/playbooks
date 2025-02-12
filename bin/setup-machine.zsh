@@ -1,15 +1,18 @@
 #!/bin/zsh
 
 # install xcode command line tools
-xcode-select --install
+sudo xcode-select --install
 
 # accept licensing
 sudo xcodebuild -license accept
 
-# M1 Macs need rosetta (sorry I am not adding support for non M1s)
+# set xcode path
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+# M1 Macs need rosetta (sorry I am not adding support for non Ms)
 /usr/sbin/softwareupdate --install-rosetta
 
-export PATH="$HOME/Library/Python/3.9/bin:/opt/homebrew/bin:$PATH"
+export PATH="$HOME/Library/Python/3.13/bin:/opt/homebrew/bin:$PATH"
 
 # make sure we have pip
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
@@ -24,4 +27,4 @@ pip3 install --ignore-installed ansible
 ansible-galaxy install -r requirements.yml
 
 # execute our ansible playbook
-ansible-playbook -i "localhost," -c local local.yml --verbose --ask-become-pass --ask-vault-pass
+ansible-playbook -i "localhost," -c local local.yml --verbose --ask-become-pass

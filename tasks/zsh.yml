@@ -37,11 +37,3 @@
         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
         mode: 0755
         force: true
-    - name: Add Starship configuration to ~/.config
-      ansible.builtin.template:
-        src: templates/starship.toml
-        dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.config/starship.toml"
-        owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
-        mode: 0755
-        force: true
-      when: config_dir.stat.exists

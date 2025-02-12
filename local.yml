@@ -43,10 +43,10 @@
       when: not asdf_file.stat.exists
       asdf_plugins:
         - name: "nodejs"
-          versions: ["18.9.0"]
-          global: "18.9.0"
+          versions: ["22.14.0"]
+          global: "22.14.0"
         - name: "python"
-          versions: ["3.9.1"]
+          versions: ["3.13.2"]
     - role: fubarhouse.rust
     - role: gantsign.oh-my-zsh
       users:
