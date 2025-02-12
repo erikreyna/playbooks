@@ -62,7 +62,6 @@ homebrew_installed_packages:
   - cantino/mcfly/mcfly
   - cfn-lint
   - cleanmymac
-  - exa
   - git
   - gh
   - jq
@@ -78,7 +77,7 @@ homebrew_taps:
   - cantino/mcfly
 
 homebrew_cask_apps:
-  # - 1password
+  - 1password
   - ableton-live-standard
   - adobe-creative-cloud
   - alfred
